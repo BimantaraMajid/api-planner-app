@@ -41,7 +41,7 @@ const postLogin = async (req, res) => {
 const postRefreshToken = async (req, res) => {
   try {
     /** @type {import('sequelize').Model} */
-    const user = await findUserByUsernameOrEmail('');
+    const user = await findUserByUsernameOrEmail(req.user.email);
     if (!user?.id) return httpNotFound(res, {}, 'User not found or user has been deleted');
 
     const token = generateToken(user.dataValues);
