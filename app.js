@@ -1,3 +1,9 @@
+if (!process.env.NODE_ENV) {
+  // eslint-disable-next-line no-console
+  console.error('environment not exported');
+  process.exit(1);
+}
+
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
