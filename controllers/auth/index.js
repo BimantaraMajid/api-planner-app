@@ -30,7 +30,7 @@ const postLogin = async (req, res) => {
       username: user.username,
       email: user.email,
       token,
-      refresh_token: refreshToken,
+      refreshToken,
     });
   } catch (error) {
     return httpInternalServerError(res);
@@ -52,7 +52,7 @@ const postRefreshToken = async (req, res) => {
       username: user.username,
       email: user.email,
       token,
-      refresh_token: refreshToken,
+      refreshToken,
     });
   } catch (error) {
     return httpInternalServerError(res);

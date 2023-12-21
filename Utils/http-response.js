@@ -5,7 +5,7 @@ function sendResponse(res, statusCode, success, message, data = {}, additionalHe
     success,
     message,
     data,
-    api_version: appPackage.version,
+    version: appPackage.version,
     ...additionalHeaders,
   };
 

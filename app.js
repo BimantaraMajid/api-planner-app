@@ -22,7 +22,7 @@ app.use(express.json());
 // request handlers
 app.get('/', (req, res) => httpSuccess(res, { message: 'OK' }));
 app.use('/', indexRouter);
-app.use((req, res) => httpNotFound(res, { error_messages: 'router not found' }));
+app.use((req, res) => httpNotFound(res, {}, 'Router not found'));
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console

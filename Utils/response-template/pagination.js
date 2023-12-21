@@ -5,7 +5,7 @@ module.exports = ({
   totalItems = 0,
 }) => ({
   page,
-  total_pages: Math.ceil(totalItems / limit),
-  total_items: totalItems,
+  totalPages: Math.ceil(totalItems / limit),
+  totalItems,
   items,
 });

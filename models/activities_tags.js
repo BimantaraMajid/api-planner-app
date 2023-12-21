@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   activities_tags.init({
     tagId: DataTypes.INTEGER,
     activityId: DataTypes.INTEGER,
-    is_active: DataTypes.BOOLEAN,
+    isActive: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'activities_tags',

@@ -4,7 +4,7 @@ const { httpUnauthorized } = require('../Utils/http-response');
 /** @type {import('express').Router} */
 // eslint-disable-next-line consistent-return
 const verifyRefreshToken = (req, res, next) => {
-  const refreshToken = req.body?.refresh_token;
+  const refreshToken = req.body?.refreshToken;
 
   if (!refreshToken) {
     return httpUnauthorized(res, 'Unauthorized: Token is missing');

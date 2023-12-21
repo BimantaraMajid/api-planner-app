@@ -27,11 +27,11 @@ authRouter.post(
 authRouter.post(
   '/login/refresh',
   [
-    body('refresh_token')
+    body('refreshToken')
       .notEmpty()
-      .withMessage('refresh_token is required')
+      .withMessage('refreshToken is required')
       .isString()
-      .withMessage('refresh_token must be a string')
+      .withMessage('refreshToken must be a string')
       .isJWT()
       .withMessage('Invalid JWT format'),
   ],
