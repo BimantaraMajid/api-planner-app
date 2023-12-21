@@ -8,6 +8,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
       tagId: {
         type: Sequelize.INTEGER,
         references: {
@@ -26,18 +34,10 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
     });
     await queryInterface.addConstraint('activities_tags', {
       type: 'unique',
-      fields: ['tag_id', 'activity_id'],
+      fields: ['tagId', 'activityId'],
       name: 'unique_tag_activity_constraint',
     });
   },

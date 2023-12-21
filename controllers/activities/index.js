@@ -31,7 +31,7 @@ const getActivities = async (req, res) => {
 const getActivitiesByID = async (req, res) => {
   try {
     const activity = await db.activities.findByPk(req.params?.id);
-    if (!activity) return httpNotFound(res, { id: req.params.id }, 'Item not found');
+    if (!activity) return httpNotFound(res, { id: req.params.id }, 'Activity not found');
 
     return httpSuccess(res, activity);
   } catch (error) {
@@ -41,7 +41,7 @@ const getActivitiesByID = async (req, res) => {
 
 const getActivitiesTags = async (req, res) => {
   try {
-    const tags = await db.activities.findAll({
+    const activity = await db.activities.findByPk(req.params.id, {
       include: [
         {
           model: db.tags,
@@ -50,20 +50,19 @@ const getActivitiesTags = async (req, res) => {
           },
           through: {
             attributes: [],
+            where: {
+              isActive: true,
+            },
           },
         },
       ],
       attributes: {
         exclude: ['createdAt', 'updatedAt'],
       },
-      where: {
-        id: {
-          [db.Sequelize.Op.eq]: req.params.id,
-        },
-      },
     });
+    if (!activity) return httpNotFound(res, { id: req.params.id }, 'Activity not found');
 
-    return httpSuccess(res, tags);
+    return httpSuccess(res, activity?.tags ?? []);
   } catch (error) {
     return httpInternalServerError(res);
   }

@@ -5,11 +5,6 @@ const {
 
 module.exports = (sequelize, DataTypes) => {
   class activities_tags extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate() {
       // define association here
     }
@@ -17,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   activities_tags.init({
     tagId: DataTypes.INTEGER,
     activityId: DataTypes.INTEGER,
+    is_active: DataTypes.BOOLEAN,
   }, {
     sequelize,
     modelName: 'activities_tags',
