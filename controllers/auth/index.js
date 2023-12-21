@@ -16,19 +16,23 @@ const db = require('../../models');
 const postLogin = async (req, res) => {
   try {
     const { username, password } = req.body;
-    /** @type {import('sequelize').Model} */
     const user = await findUserByUsernameOrEmail(username);
     if (!user?.id || !bcrypt.compareSync(password + user.salt, user.password)) {
       return httpUnauthorized(res, 'Invalid username or password');
     }
 
-    const token = generateToken(user.dataValues);
-    const refreshToken = generateRefreshToken(user.dataValues);
+    const { id, email } = user;
+    const token = generateToken({
+      id, email, username,
+    });
+    const refreshToken = generateRefreshToken({
+      id, email, username,
+    });
 
     return httpSuccess(res, {
-      id: user.id,
+      id,
       username: user.username,
-      email: user.email,
+      email,
       token,
       refreshToken,
     });
