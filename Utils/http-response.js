@@ -12,19 +12,19 @@ function sendResponse(res, statusCode, success, message, data = {}, additionalHe
   res.status(statusCode).json(response);
 }
 
-function httpSuccess(res, data, message = 'Success') {
+function httpSuccess(res, data = {}, message = 'Success') {
   sendResponse(res, 200, true, message, data);
 }
 
-function httpCreated(res, data, message = 'Resource created') {
+function httpCreated(res, data = {}, message = 'Resource created') {
   sendResponse(res, 201, true, message, data);
 }
 
-function httpUpdated(res, data, message = 'Resource updated') {
+function httpUpdated(res, data = {}, message = 'Resource updated') {
   sendResponse(res, 200, true, message, data);
 }
 
-function httpBadRequest(res, data, message = 'Bad request') {
+function httpBadRequest(res, data = {}, message = 'Bad request') {
   sendResponse(res, 400, false, message, data);
 }
 
@@ -36,15 +36,15 @@ function httpForbidden(res, message = 'Forbidden') {
   sendResponse(res, 403, false, message);
 }
 
-function httpNotFound(res, data, message = 'Resource not found') {
+function httpNotFound(res, data = {}, message = 'Resource not found') {
   sendResponse(res, 404, false, message, data);
 }
 
-function httpConflict(res, data, message = 'Conflict') {
+function httpConflict(res, data = {}, message = 'Conflict') {
   sendResponse(res, 409, false, message, data);
 }
 
-function httpUnprocessableEntity(res, data, message = 'Unprocessable Entity') {
+function httpUnprocessableEntity(res, data = {}, message = 'Unprocessable Entity') {
   sendResponse(res, 422, false, message, data);
 }
 

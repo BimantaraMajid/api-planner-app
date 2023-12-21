@@ -1,7 +1,7 @@
 const express = require('express');
-const { query } = require('express-validator');
+const { query, param } = require('express-validator');
 const validatePayload = require('../../middleware/express-validator');
-const { getActivities } = require('../../controllers/activities');
+const { getActivities, getActivitiesByID, getActivitiesTags } = require('../../controllers/activities');
 
 const activitiesRouter = express.Router();
 
@@ -28,6 +28,30 @@ activitiesRouter.get(
   ],
   validatePayload,
   getActivities,
+);
+
+activitiesRouter.get(
+  '/:id',
+  [
+    param('id')
+      .isNumeric()
+      .withMessage('Must be a number')
+      .toInt(),
+  ],
+  validatePayload,
+  getActivitiesByID,
+);
+
+activitiesRouter.get(
+  '/:id/tags',
+  [
+    param('id')
+      .isNumeric()
+      .withMessage('Must be a number')
+      .toInt(),
+  ],
+  validatePayload,
+  getActivitiesTags,
 );
 
 module.exports = activitiesRouter;

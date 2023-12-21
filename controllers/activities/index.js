@@ -1,4 +1,4 @@
-const { httpInternalServerError, httpSuccess } = require('../../Utils/http-response');
+const { httpInternalServerError, httpSuccess, httpNotFound } = require('../../Utils/http-response');
 const pagination = require('../../Utils/response-template/pagination');
 const db = require('../../models');
 
@@ -27,6 +27,50 @@ const getActivities = async (req, res) => {
   }
 };
 
+/** @type {import('sequelize').Router} */
+const getActivitiesByID = async (req, res) => {
+  try {
+    const activity = await db.activities.findByPk(req.params?.id);
+    if (!activity) return httpNotFound(res, { id: req.params.id }, 'Item not found');
+
+    return httpSuccess(res, activity);
+  } catch (error) {
+    return httpInternalServerError(res);
+  }
+};
+
+const getActivitiesTags = async (req, res) => {
+  try {
+    const tags = await db.activities.findAll({
+      include: [
+        {
+          model: db.tags,
+          attributes: {
+            exclude: ['createdAt', 'updatedAt'],
+          },
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+      attributes: {
+        exclude: ['createdAt', 'updatedAt'],
+      },
+      where: {
+        id: {
+          [db.Sequelize.Op.eq]: req.params.id,
+        },
+      },
+    });
+
+    return httpSuccess(res, tags);
+  } catch (error) {
+    return httpInternalServerError(res);
+  }
+};
+
 module.exports = {
   getActivities,
+  getActivitiesByID,
+  getActivitiesTags,
 };
