@@ -27,7 +27,7 @@ const getActivities = async (req, res) => {
   }
 };
 
-/** @type {import('sequelize').Router} */
+/** @type {import('express').Router} */
 const getActivitiesByID = async (req, res) => {
   try {
     const activity = await db.activities.findByPk(req.params?.id);
@@ -39,6 +39,7 @@ const getActivitiesByID = async (req, res) => {
   }
 };
 
+/** @type {import('express').Router} */
 const getActivitiesTags = async (req, res) => {
   try {
     const activity = await db.activities.findByPk(req.params.id, {
