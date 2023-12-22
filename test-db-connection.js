@@ -6,10 +6,8 @@ const seq = new Sequelize(config.database, config.username, config.password, con
 (async () => {
   try {
     await seq.authenticate();
-    // eslint-disable-next-line no-console
-    console.log('authenticated successfully');
+    console.info('authenticated successfully');
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log('error authenticating :', error?.message);
+    console.info('error authenticating :', error?.message);
   }
 })();

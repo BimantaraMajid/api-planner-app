@@ -1,5 +1,4 @@
 if (!process.env.NODE_ENV) {
-  // eslint-disable-next-line no-console
   console.error('environment not exported');
   process.exit(1);
 }
@@ -25,8 +24,7 @@ app.use('/', indexRouter);
 app.use((req, res) => httpNotFound(res, {}, 'Router not found'));
 
 app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log('listening on port:', port, `\nhttp://localhost:${port}`);
+  console.info('listening on port:', port, `\nhttp://localhost:${port}`);
 });
 
 module.exports = app;

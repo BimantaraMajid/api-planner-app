@@ -1,3 +1,4 @@
+/** @type {import ('eslint').ESLint} */
 module.exports = {
   env: {
     commonjs: true,
@@ -22,5 +23,6 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
+    'no-console': ['error', { allow: ['error', 'info'] }],
   },
 };
