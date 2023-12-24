@@ -6,8 +6,8 @@ const { httpUnauthorized } = require('../Utils/http-response');
 const verifyToken = (req, res, next) => {
   const [typeAuth, token] = req.headers.authorization?.split(' ') ?? [];
 
-  if (typeAuth !== 'Bearer') return httpUnauthorized(res, 'Invalid authentication type');
   if (!token) return httpUnauthorized(res, 'Unauthorized: Token is missing');
+  if (typeAuth !== 'Bearer') return httpUnauthorized(res, 'Invalid authentication type');
 
   // eslint-disable-next-line consistent-return
   jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
