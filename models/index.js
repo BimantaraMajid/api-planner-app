@@ -11,6 +11,7 @@ db.users = require('./users')(sequelize, Sequelize.DataTypes);
 db.activities = require('./activities')(sequelize, Sequelize.DataTypes);
 db.activities_tags = require('./activities_tags')(sequelize, Sequelize.DataTypes);
 db.tags = require('./tags')(sequelize, Sequelize.DataTypes);
+db.plans = require('./plans')(sequelize, Sequelize.DataTypes);
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
