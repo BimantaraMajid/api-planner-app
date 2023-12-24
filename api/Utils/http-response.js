@@ -1,11 +1,9 @@
-const appPackage = require('../package.json');
-
 function sendResponse(res, statusCode, success, message, data = {}, additionalHeaders = {}) {
   const response = {
     success,
     message,
     data,
-    version: appPackage.version,
+    version: 'v1.0.0',
     ...additionalHeaders,
   };
 
