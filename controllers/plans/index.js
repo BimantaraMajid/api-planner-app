@@ -33,6 +33,7 @@ const getPlansByDate = async (req, res) => {
     return httpSuccess(res, plans);
   } catch (error) {
     console.error(error);
+    console.error(error);
     return httpInternalServerError(res);
   }
 };

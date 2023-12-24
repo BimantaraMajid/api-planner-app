@@ -23,6 +23,7 @@ const getActivities = async (req, res) => {
       totalItems: activities.count,
     }));
   } catch (error) {
+    console.error(error);
     return httpInternalServerError(res);
   }
 };
@@ -35,6 +36,7 @@ const getActivitiesByID = async (req, res) => {
 
     return httpSuccess(res, activity);
   } catch (error) {
+    console.error(error);
     return httpInternalServerError(res);
   }
 };
@@ -65,6 +67,7 @@ const getActivitiesTags = async (req, res) => {
 
     return httpSuccess(res, activity?.tags ?? []);
   } catch (error) {
+    console.error(error);
     return httpInternalServerError(res);
   }
 };

@@ -23,6 +23,7 @@ const getTags = async (req, res) => {
       totalItems: activities.count,
     }));
   } catch (error) {
+    console.error(error);
     return httpInternalServerError(res);
   }
 };

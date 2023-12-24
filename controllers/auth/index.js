@@ -37,6 +37,7 @@ const postLogin = async (req, res) => {
       refreshToken,
     });
   } catch (error) {
+    console.error(error);
     return httpInternalServerError(res);
   }
 };
@@ -59,6 +60,7 @@ const postRefreshToken = async (req, res) => {
       refreshToken,
     });
   } catch (error) {
+    console.error(error);
     return httpInternalServerError(res);
   }
 };
@@ -82,6 +84,7 @@ const postRegister = async (req, res) => {
 
     return httpCreated(res, {}, 'Successfully registered');
   } catch (error) {
+    console.error(error);
     return httpInternalServerError(res);
   }
 };
