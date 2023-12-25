@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx ncc build app.js -o api && npm run migrate",
+    "build": "npm run migrate",
     "start": "nodemon run",
     "lint": "eslint --ignore-pattern \"api/**\" ./",
     "lint:fix": "eslint --fix --ignore-pattern \"api/**\" ./",
@@ -13,7 +13,7 @@
     "seed": "sequelize-cli db:seed:all",
     "migrate:undo": "sequelize-cli db:migrate:undo",
     "seed:remove": "sequelize-cli db:seed:undo:all",
-    "build:ncc": "npx ncc build app.js -o api"
+    "build:staging": "npx ncc build app.js -o api && git add api/* && git commit -m \"deploy staging: $(date)\""
   },
   "keywords": [],
   "author": "",
