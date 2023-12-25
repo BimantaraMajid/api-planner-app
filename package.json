@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "npx ncc build app.js -o api && npm run migrate",
     "start": "nodemon run",
     "lint": "eslint --ignore-pattern \"api/**\" ./",
     "lint:fix": "eslint --fix --ignore-pattern \"api/**\" ./",
