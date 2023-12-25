@@ -13,5 +13,5 @@ module.exports = {
       require: process.env.NODE_ENV === 'production',
     },
   },
-  logging: process.env.NODE_ENV !== 'production' ? console.info : false,
+  logging: process.env.NODE_ENV === 'development' ? console.info : false,
 };
