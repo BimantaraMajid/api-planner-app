@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon dev-app",
+    "build": "ncc build ./app.js -o ./api",
+    "start": "nodemon run",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
     "test": "jest ./",
