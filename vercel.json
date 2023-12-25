@@ -2,7 +2,11 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/"
+      "destination": "/api"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/404"
     }
   ],
   "cleanUrls": true

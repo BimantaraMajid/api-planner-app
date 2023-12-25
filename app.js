@@ -18,8 +18,8 @@ app.use(helmet());
 app.use(express.json());
 
 // request handlers
-app.get('/', (req, res) => httpSuccess(res, { message: 'OK' }));
-app.use('/', indexRouter);
+app.get('/api', (req, res) => httpSuccess(res, { message: 'OK' }));
+app.use('/api', indexRouter);
 app.use((req, res) => httpNotFound(res, {}, 'Router not found'));
 
 module.exports = app;
