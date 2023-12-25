@@ -1,8 +1,1 @@
 # Ignore everything (folders and files) on root only
-/*
-!api
-!vercel.json
-!package.json
-!config
-!models
-!migrations
