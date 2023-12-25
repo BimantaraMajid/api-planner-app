@@ -11,7 +11,8 @@
     "migrate": "sequelize-cli db:migrate",
     "seed": "sequelize-cli db:seed:all",
     "migrate:undo": "sequelize-cli db:migrate:undo",
-    "seed:remove": "sequelize-cli db:seed:undo:all"
+    "seed:remove": "sequelize-cli db:seed:undo:all",
+    "build:ncc": "npx ncc build app.js -o api"
   },
   "keywords": [],
   "author": "",

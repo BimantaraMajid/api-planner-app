@@ -7,5 +7,11 @@ module.exports = {
   dialect: process.env.DB_DIALECT,
   // eslint-disable-next-line global-require
   dialectModule: require('pg'),
+  ssl: process.env.NODE_ENV === 'production',
+  dialectOptions: {
+    ssl: {
+      require: process.env.NODE_ENV === 'production',
+    },
+  },
   logging: process.env.NODE_ENV !== 'production' ? console.info : false,
 };
