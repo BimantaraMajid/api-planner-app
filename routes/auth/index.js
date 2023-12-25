@@ -25,7 +25,7 @@ authRouter.post(
 );
 
 authRouter.post(
-  '/login/refresh',
+  '/refresh',
   [
     body('refreshToken')
       .notEmpty()
