@@ -7,7 +7,7 @@ const plansRouter = require('./plans');
 
 const indexRouter = express.Router();
 
-indexRouter.use('/', authRouter);
+indexRouter.use('/auth', authRouter);
 indexRouter.use('/activities', verifyToken, activitiesRouter);
 indexRouter.use('/tags', verifyToken, tagsRouter);
 indexRouter.use('/plans', verifyToken, plansRouter);

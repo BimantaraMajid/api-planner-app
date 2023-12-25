@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "ncc build ./app.js -o ./api",
     "start": "nodemon run",
-    "lint": "eslint ./",
-    "lint:fix": "eslint ./ --fix",
+    "lint": "eslint --ignore-pattern \"api/**\" ./",
+    "lint:fix": "eslint --fix --ignore-pattern \"api/**\" ./",
     "test": "jest ./",
     "migrate": "sequelize-cli db:migrate",
     "seed": "sequelize-cli db:seed:all",
