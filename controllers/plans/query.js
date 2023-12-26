@@ -23,6 +23,20 @@ function getAllPlansWithCount({
   });
 }
 
+function getPlansByPk({ id }) {
+  return db.plans.findByPk(
+    id,
+    {
+      include: [
+        {
+          model: db.tasks,
+          attributes: ['id', 'name', 'time'],
+        },
+      ],
+    },
+  );
+}
+
 async function getActivePlansByDate({
   date, userId,
 }) {
@@ -64,21 +78,33 @@ async function getActivePlansByDate({
 }
 
 async function insertPlan({
-  name, startDate, endDate, userId, type, frequency, tag,
+  name, startDate, endDate, userId, type, frequency, tag, tasks = [],
 }) {
-  return db.plans.create({
-    name,
-    startDate,
-    endDate,
-    userId,
-    type,
-    frequency,
-    tag,
+  const result = await db.sequelize.transaction(async (transaction) => {
+    const plan = await db.plans.create({
+      name,
+      startDate,
+      endDate,
+      userId,
+      type,
+      frequency,
+      tag,
+    }, { transaction });
+
+    await db.tasks.bulkCreate(
+      tasks.map((task) => ({ ...task, planId: plan.id })),
+      { transaction },
+    );
+
+    return plan;
   });
+
+  return getPlansByPk({ id: result.id });
 }
 
 module.exports = {
   getAllPlansWithCount,
+  getPlansByPk,
   getActivePlansByDate,
   insertPlan,
 };

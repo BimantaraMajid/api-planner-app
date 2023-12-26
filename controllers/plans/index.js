@@ -1,7 +1,12 @@
 const { httpInternalServerError, httpSuccess, httpCreated } = require('../../Utils/http-response');
 const pagination = require('../../Utils/response-template/pagination');
 const { PLAN_TYPES } = require('../../constant/plan');
-const { getAllPlansWithCount, getActivePlansByDate, insertPlan } = require('./query');
+const {
+  getAllPlansWithCount,
+  getActivePlansByDate,
+  insertPlan,
+  getPlansByPk,
+} = require('./query');
 
 /** @type {import('express').Router} */
 const getPlans = async (req, res) => {
@@ -16,6 +21,18 @@ const getPlans = async (req, res) => {
       page,
       totalItems: plans?.count,
     }));
+  } catch (error) {
+    console.error(error);
+    return httpInternalServerError(res);
+  }
+};
+
+const getPlansById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const plan = await getPlansByPk({ id });
+
+    return httpSuccess(res, plan);
   } catch (error) {
     console.error(error);
     return httpInternalServerError(res);
@@ -42,6 +59,7 @@ const getPlansByDate = async (req, res) => {
 const postPlan = async (req, res) => {
   try {
     const insert = await insertPlan({ ...req.body, userId: req.user.id });
+
     return httpCreated(res, insert, 'Plan successfully created');
   } catch (error) {
     console.error(error);
@@ -54,7 +72,8 @@ const getPlanTypes = async (req, res) => httpSuccess(res, PLAN_TYPES);
 
 module.exports = {
   getPlans,
+  getPlanTypes,
+  getPlansById,
   getPlansByDate,
   postPlan,
-  getPlanTypes,
 };

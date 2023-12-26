@@ -7,6 +7,7 @@ const {
   getPlansByDate,
   postPlan,
   getPlanTypes,
+  getPlansById,
 } = require('../../controllers/plans');
 const { isValidDate } = require('../../middleware/express-validator/custom-validate');
 const { PLAN_TYPES } = require('../../constant/plan');
@@ -18,6 +19,20 @@ plansRouter.get(
   paginationPayload,
   validatePayload,
   getPlans,
+);
+
+plansRouter.get('/types', getPlanTypes);
+
+plansRouter.get(
+  '/:id',
+  [
+    param('id')
+      .isNumeric()
+      .withMessage('Must be a number')
+      .toInt(),
+  ],
+  validatePayload,
+  getPlansById,
 );
 
 plansRouter.get(
@@ -102,11 +117,19 @@ plansRouter.post(
     body('tag.*')
       .isString()
       .withMessage('Some value at tag is not string'),
+    body('tasks')
+      .optional()
+      .isArray()
+      .withMessage('Tags must be an array[object]'),
+    body('tasks.*')
+      .isObject()
+      .withMessage('Tags must be an object {name}'),
+    body('tasks.*.name')
+      .isString()
+      .withMessage('Some value at tag is not string'),
   ],
   validatePayload,
   postPlan,
 );
-
-plansRouter.get('/types', getPlanTypes);
 
 module.exports = plansRouter;

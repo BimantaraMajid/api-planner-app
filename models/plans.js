@@ -4,7 +4,10 @@ const {
 
 module.exports = (sequelize, DataTypes) => {
   class plans extends Model {
-    static associate() {
+    static associate(models) {
+      plans.hasMany(models.tasks, {
+        foreignKey: 'planId',
+      });
     }
   }
   plans.init({
