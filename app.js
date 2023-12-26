@@ -18,7 +18,9 @@ app.use(helmet());
 app.use(express.json());
 
 // request handlers
-app.get('/', (req, res) => httpSuccess(res, { message: 'OK' }));
+app.get('/', (req, res) => httpSuccess(res, {
+  message: `${process.env.NODE_ENV !== 'production' ? 'staging' : ''} OK`,
+}));
 app.use('/', indexRouter);
 app.use((req, res) => httpNotFound(res, {}, 'Router not found'));
 
