@@ -81,19 +81,26 @@ async function insertPlan({
   name, startDate, endDate, userId, type, frequency, tag, tasks = [],
 }) {
   const result = await db.sequelize.transaction(async (transaction) => {
-    const plan = await db.plans.create({
-      name,
-      startDate,
-      endDate,
-      userId,
-      type,
-      frequency,
-      tag,
-    }, { transaction });
+    const plan = await db.plans.create(
+      {
+        name,
+        startDate,
+        endDate,
+        userId,
+        type,
+        frequency,
+        tag,
+      },
+      {
+        transaction,
+      },
+    );
 
     await db.tasks.bulkCreate(
       tasks.map((task) => ({ ...task, planId: plan.id })),
-      { transaction },
+      {
+        transaction,
+      },
     );
 
     return plan;
@@ -102,9 +109,50 @@ async function insertPlan({
   return getPlansByPk({ id: result.id });
 }
 
+async function updatePlan({
+  id, name, startDate, endDate, userId, type, frequency, tag, tasks = [],
+}) {
+  await db.sequelize.transaction(async (transaction) => {
+    await db.plans.update(
+      {
+        name,
+        startDate,
+        endDate,
+        userId,
+        type,
+        frequency,
+        tag,
+      },
+      {
+        where: {
+          id,
+        },
+        transaction,
+      },
+    );
+    await db.tasks.destroy(
+      {
+        where: { planId: id },
+        transaction,
+      },
+    );
+    await db.tasks.bulkCreate(
+      tasks.map((task) => ({ ...task, planId: id })),
+      {
+        transaction,
+      },
+    );
+
+    return true;
+  });
+
+  return getPlansByPk({ id });
+}
+
 module.exports = {
   getAllPlansWithCount,
   getPlansByPk,
   getActivePlansByDate,
   insertPlan,
+  updatePlan,
 };

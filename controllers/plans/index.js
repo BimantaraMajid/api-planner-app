@@ -1,4 +1,9 @@
-const { httpInternalServerError, httpSuccess, httpCreated } = require('../../Utils/http-response');
+const {
+  httpInternalServerError,
+  httpSuccess,
+  httpCreated,
+  httpUpdated,
+} = require('../../Utils/http-response');
 const pagination = require('../../Utils/response-template/pagination');
 const { PLAN_TYPES } = require('../../constant/plan');
 const {
@@ -6,6 +11,7 @@ const {
   getActivePlansByDate,
   insertPlan,
   getPlansByPk,
+  updatePlan,
 } = require('./query');
 
 /** @type {import('express').Router} */
@@ -67,6 +73,21 @@ const postPlan = async (req, res) => {
   }
 };
 
+const putPlan = async (req, res) => {
+  try {
+    const update = await updatePlan({
+      ...req.body,
+      userId: req.user.id,
+      id: req.params.id,
+    });
+
+    return httpUpdated(res, update, 'Plan successfully updated');
+  } catch (error) {
+    console.error(error);
+    return httpInternalServerError(res);
+  }
+};
+
 /** @type {import('express').Router} */
 const getPlanTypes = async (req, res) => httpSuccess(res, PLAN_TYPES);
 
@@ -76,4 +97,5 @@ module.exports = {
   getPlansById,
   getPlansByDate,
   postPlan,
+  putPlan,
 };
