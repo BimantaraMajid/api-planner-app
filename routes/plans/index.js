@@ -10,10 +10,12 @@ const {
   getPlansById,
   putPlan,
   deletePlan,
+  patchPlan,
 } = require('../../controllers/plans');
 const { isValidDate } = require('../../middleware/express-validator/custom-validate');
 const postPlanValidate = require('./post-validate');
 const idValidate = require('../../controllers/plans/id-validate');
+const patchValidate = require('./patch-validate');
 
 const plansRouter = express.Router();
 
@@ -69,6 +71,18 @@ plansRouter.put(
   validatePayload,
   idValidate,
   putPlan,
+);
+
+plansRouter.patch(
+  '/:id',
+  param('id')
+    .isNumeric()
+    .withMessage('Must be a number')
+    .toInt(),
+  patchValidate,
+  validatePayload,
+  idValidate,
+  patchPlan,
 );
 
 plansRouter.delete(

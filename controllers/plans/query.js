@@ -149,6 +149,51 @@ async function updatePlanById({
   return getPlansByPk({ id });
 }
 
+async function patchPlanById({
+  id, name, startDate, endDate, userId, type, frequency, tag, tasks = [],
+}) {
+  const plan = await db.plans.findByPk(id);
+
+  await db.sequelize.transaction(async (transaction) => {
+    await db.plans.update(
+      {
+        name: name || plan.name,
+        startDate: startDate || plan.startDate,
+        endDate: endDate || plan.endDate,
+        userId: userId || plan.userId,
+        type: type || plan.type,
+        frequency: frequency || plan.frequency,
+        tag: tag || plan.tag,
+      },
+      {
+        where: {
+          id,
+        },
+        transaction,
+      },
+    );
+
+    if (tasks.length) {
+      await db.tasks.destroy(
+        {
+          where: { planId: id },
+          transaction,
+        },
+      );
+      await db.tasks.bulkCreate(
+        tasks.map((task) => ({ ...task, planId: id })),
+        {
+          transaction,
+        },
+      );
+    }
+
+    return true;
+  });
+
+  return getPlansByPk({ id });
+}
+
 async function removePlanById({ id }) {
   return db.plans.destroy({ where: { id } });
 }
@@ -159,5 +204,6 @@ module.exports = {
   getActivePlansByDate,
   insertPlan,
   updatePlanById,
+  patchPlanById,
   removePlanById,
 };

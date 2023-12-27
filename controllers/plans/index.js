@@ -13,6 +13,7 @@ const {
   getPlansByPk,
   updatePlanById,
   removePlanById,
+  patchPlanById,
 } = require('./query');
 
 /** @type {import('express').Router} */
@@ -78,11 +79,24 @@ const putPlan = async (req, res) => {
   try {
     const update = await updatePlanById({
       ...req.body,
-      userId: req.user.id,
       id: req.params.id,
     });
 
     return httpUpdated(res, update, 'Plan successfully updated');
+  } catch (error) {
+    console.error(error);
+    return httpInternalServerError(res);
+  }
+};
+
+const patchPlan = async (req, res) => {
+  try {
+    const patch = await patchPlanById({
+      ...req.body,
+      id: req.params.id,
+    });
+
+    return httpUpdated(res, patch, 'Plan successfully patched');
   } catch (error) {
     console.error(error);
     return httpInternalServerError(res);
@@ -110,5 +124,6 @@ module.exports = {
   getPlansByDate,
   postPlan,
   putPlan,
+  patchPlan,
   deletePlan,
 };
