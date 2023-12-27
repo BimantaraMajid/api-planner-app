@@ -11,7 +11,8 @@ const {
   getActivePlansByDate,
   insertPlan,
   getPlansByPk,
-  updatePlan,
+  updatePlanById,
+  removePlanById,
 } = require('./query');
 
 /** @type {import('express').Router} */
@@ -75,13 +76,24 @@ const postPlan = async (req, res) => {
 
 const putPlan = async (req, res) => {
   try {
-    const update = await updatePlan({
+    const update = await updatePlanById({
       ...req.body,
       userId: req.user.id,
       id: req.params.id,
     });
 
     return httpUpdated(res, update, 'Plan successfully updated');
+  } catch (error) {
+    console.error(error);
+    return httpInternalServerError(res);
+  }
+};
+
+const deletePlan = async (req, res) => {
+  try {
+    await removePlanById(req.params);
+
+    return httpSuccess(res, {}, 'Plan successfully deleted');
   } catch (error) {
     console.error(error);
     return httpInternalServerError(res);
@@ -98,4 +110,5 @@ module.exports = {
   getPlansByDate,
   postPlan,
   putPlan,
+  deletePlan,
 };

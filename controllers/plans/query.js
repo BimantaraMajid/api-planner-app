@@ -109,7 +109,7 @@ async function insertPlan({
   return getPlansByPk({ id: result.id });
 }
 
-async function updatePlan({
+async function updatePlanById({
   id, name, startDate, endDate, userId, type, frequency, tag, tasks = [],
 }) {
   await db.sequelize.transaction(async (transaction) => {
@@ -149,10 +149,15 @@ async function updatePlan({
   return getPlansByPk({ id });
 }
 
+async function removePlanById({ id }) {
+  return db.plans.destroy({ where: { id } });
+}
+
 module.exports = {
   getAllPlansWithCount,
   getPlansByPk,
   getActivePlansByDate,
   insertPlan,
-  updatePlan,
+  updatePlanById,
+  removePlanById,
 };
