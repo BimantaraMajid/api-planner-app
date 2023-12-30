@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon run",
-    "lint": "eslint --ignore-pattern \"api/**\" ./",
+    "lint": "eslint ./",
     "lint:fix": "eslint --fix --ignore-pattern \"api/**\" ./",
     "test": "jest ./",
     "migrate": "sequelize-cli db:migrate",
