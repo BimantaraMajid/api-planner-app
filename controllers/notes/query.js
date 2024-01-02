@@ -10,7 +10,7 @@ function getAllNotesWithCount({
       userId: {
         [Op.eq]: userId,
       },
-      name: {
+      title: {
         [Op.iLike]: `%${q}%`,
       },
     },
@@ -27,28 +27,31 @@ function getNoteByPk({
 }
 
 async function insertNote({
-  userId, name,
+  userId, title, content,
 }) {
   const note = await db.notes.create({
-    userId,
-    name,
+    userId, title, content,
   });
 
   return getNoteByPk({ id: note.id });
 }
 
 async function updateNote({
-  id, name,
+  id, title, content,
 }) {
-  const note = await db.notes.update({
-    name,
+  await db.notes.update({
+    title, content,
   }, {
     where: {
       id,
     },
   });
 
-  return getNoteByPk({ id: note.id });
+  return getNoteByPk({ id });
+}
+
+async function removeNoteById({ id }) {
+  return db.notes.destroy({ where: { id } });
 }
 
 module.exports = {
@@ -56,4 +59,5 @@ module.exports = {
   getNoteByPk,
   insertNote,
   updateNote,
+  removeNoteById,
 };

@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   notes.init({
-    name: DataTypes.STRING,
+    title: DataTypes.STRING,
+    content: {
+      type: DataTypes.TEXT,
+      defaultValue: '',
+    },
     userId: DataTypes.INTEGER,
   }, {
     sequelize,

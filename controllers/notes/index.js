@@ -5,6 +5,7 @@ const {
   getNoteByPk,
   insertNote,
   updateNote,
+  removeNoteById,
 } = require('./query');
 
 /** @type {import('express').Router} */
@@ -71,9 +72,21 @@ const putNote = async (req, res) => {
   }
 };
 
+const deleteNote = async (req, res) => {
+  try {
+    await removeNoteById(req.params);
+
+    return httpSuccess(res, {}, 'Note successfully deleted');
+  } catch (error) {
+    console.error(error);
+    return httpInternalServerError(res);
+  }
+};
+
 module.exports = {
   getNotes,
   getNoteById,
   postNote,
   putNote,
+  deleteNote,
 };
