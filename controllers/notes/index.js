@@ -1,6 +1,11 @@
-const { httpSuccess, httpInternalServerError } = require('../../Utils/http-response');
+const { httpSuccess, httpInternalServerError, httpCreated } = require('../../Utils/http-response');
 const pagination = require('../../Utils/response-template/pagination');
-const { getAllNotesWithCount } = require('./query');
+const {
+  getAllNotesWithCount,
+  getNoteByPk,
+  insertNote,
+  updateNote,
+} = require('./query');
 
 /** @type {import('express').Router} */
 const getNotes = async (req, res) => {
@@ -21,6 +26,54 @@ const getNotes = async (req, res) => {
   }
 };
 
+/** @type {import('express').Router} */
+const getNoteById = async (req, res) => {
+  try {
+    const note = await getNoteByPk({
+      id: req.params.id,
+      userId: req.user.id,
+    });
+
+    return httpSuccess(res, note);
+  } catch (error) {
+    console.error(error);
+    return httpInternalServerError(res);
+  }
+};
+
+/** @type {import('express').Router} */
+const postNote = async (req, res) => {
+  try {
+    const note = await insertNote({
+      userId: req.user.id,
+      ...req.body,
+    });
+
+    return httpCreated(res, note, 'Note created successfully');
+  } catch (error) {
+    console.error(error);
+    return httpInternalServerError(res);
+  }
+};
+
+/** @type {import('express').Router} */
+const putNote = async (req, res) => {
+  try {
+    const note = await updateNote({
+      id: req.params.id,
+      ...req.body,
+    });
+
+    return httpSuccess(res, note, 'Note updated successfully');
+  } catch (error) {
+    console.error(error);
+    return httpInternalServerError(res);
+  }
+};
+
 module.exports = {
   getNotes,
+  getNoteById,
+  postNote,
+  putNote,
 };
